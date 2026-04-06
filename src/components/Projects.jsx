@@ -104,7 +104,7 @@ function Projects() {
                 <a
                   href={project.github}
                   target="_blank"
-                  rel="noopener noreferrer"
+                  
                   className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition"
                 >
                   <FaGithub /> Code
