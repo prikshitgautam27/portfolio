@@ -21,7 +21,7 @@ function Skills() {
   ];
 
   return (
-    <section id="skills" className="py-96 px-6 bg-dark">
+    <section id="skills" className="py-24 px-6 bg-dark">
 
       <div className="max-w-6xl mx-auto">
         <motion.h2
