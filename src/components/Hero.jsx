@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
-import { ReactTyped } from 'react-typed';
-
+import ReactTyped from 'react-typed';
 function Hero() {
   return (
     <section
