@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import ReactTyped from 'react-typed';
+
 function Hero() {
   return (
     <section
@@ -45,27 +45,14 @@ function Hero() {
           Prikshit Gautam
         </motion.h1>
 
-        {/* Typing Animation */}
+        {/* Title */}
         <motion.h2
-          className="text-3xl text-gray-300 mb-6 min-h-[2.5rem]"
+          className="text-3xl text-gray-300 mb-6"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <ReactTyped
-            strings={[
-              "Machine Learning Engineer",
-              "NLP Specialist",
-              "Computer Vision Engineer",
-              "AI Product Builder",
-              "Deep Learning Enthusiast",
-            ]}
-            typeSpeed={60}
-            backSpeed={40}
-            backDelay={1500}
-            loop
-            className="text-blue-400 font-semibold"
-          />
+          Machine Learning Engineer | Product Focus
         </motion.h2>
 
         {/* Description */}
@@ -85,14 +72,14 @@ function Hero() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6, duration: 0.8 }}
         >
-          
+          <a
             href="#contact"
             className="px-8 py-3 bg-blue-500 hover:bg-blue-600 rounded-lg font-bold transition"
           >
             Get In Touch
           </a>
 
-          
+          <a
             href="https://github.com/prikshitgautam27"
             target="_blank"
             rel="noopener noreferrer"
