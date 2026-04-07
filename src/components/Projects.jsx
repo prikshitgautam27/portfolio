@@ -45,7 +45,7 @@ function Projects() {
   ];
 
   return (
-    <section id="projects" className="py-32 px-6 bg-dark relative">
+    <section id="projects" className="py-24 px-6 bg-dark relative">
       <div className="max-w-6xl mx-auto relative z-10">
         
         <motion.h2

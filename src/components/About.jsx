@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 function About() {
   return (
-    <section id="about" className="py-32 px-6 bg-darkGray relative">
+    <section id="about" className="py-24 px-6 bg-darkGray relative">
       
       {/* Soft background glow */}
       <div className="absolute inset-0 bg-gradient-to-b from-purple-900/10 to-transparent blur-3xl"></div>

@@ -38,7 +38,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="py-32 px-6 bg-darkGray">
+    <section id="contact" className="py-20 px-6 bg-darkGray">
       <div className="max-w-6xl mx-auto">
         
         <motion.h2
