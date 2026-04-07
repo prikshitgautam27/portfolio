@@ -1,6 +1,21 @@
 import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
+const roles = [
+  "Machine Learning Engineer",
+  "NLP Specialist",
+  "Computer Vision Engineer",
+  "AI Product Builder",
+  "Deep Learning Enthusiast",
+];
 function Hero() {
+  const [index, setIndex] = useState(0);
+useEffect(() => {
+  const interval = setInterval(() => {
+    setIndex((prev) => (prev + 1) % roles.length);
+  }, 2500);
+  return () => clearInterval(interval);
+}, []);
   return (
     <section
       id="home"
@@ -46,14 +61,18 @@ function Hero() {
         </motion.h1>
 
         {/* Title */}
-        <motion.h2
-          className="text-3xl text-gray-300 mb-6"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          Machine Learning Engineer | Product Focus
-        </motion.h2>
+        {/* Typing Animation */}
+<div className="text-3xl text-gray-300 mb-6 h-12 flex items-center justify-center">
+  <motion.span
+    key={index}
+    initial={{ opacity: 0, y: 10 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5 }}
+    className="text-blue-400 font-semibold"
+  >
+    {roles[index]}
+  </motion.span>
+</div>
 
         {/* Description */}
         <motion.p
