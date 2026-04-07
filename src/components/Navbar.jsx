@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import { FaGithub, FaLinkedin, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-scroll';
 

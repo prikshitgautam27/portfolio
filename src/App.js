@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaGithub, FaLinkedin, FaEnvelope, FaDownload } from 'react-icons/fa';
+
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';

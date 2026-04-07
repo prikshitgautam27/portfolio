@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FaGithub } from "react-icons/fa";
+
 
 function Projects() {
   const projects = [
