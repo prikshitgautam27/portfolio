@@ -6,7 +6,7 @@ function Navbar() {
   return (
     <nav className="fixed top-0 w-full bg-darkGray/80 backdrop-blur-md z-50 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-blue-400">Prikshit</h1>
+        <h1 className="text-2xl font-bold text-blue-400">  P.Gautam.le-site-Web</h1>
         
         <div className="flex gap-8">
           <Link to="home" smooth className="cursor-pointer hover:text-blue-400 transition">Home</Link>
