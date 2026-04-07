@@ -41,8 +41,7 @@ function Projects() {
       metrics: "Multi-region replication, secure IAM access, version tracking",
       github: "https://github.com/prikshitgautam27/AWS_S3_E2",
       mediaType: "video",
-      media: "/aws-demo.mp4"
-    }
+      media: "https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/aws-demo.mp4"    }
   ];
 
   return (
