@@ -70,9 +70,17 @@ function Projects() {
               {/* Media Preview */}
               <div className="mb-6 rounded-lg overflow-hidden border border-blue-500/20">
                 {project.mediaType === "video" ? (
-                  <video src={project.media} controls className="w-full rounded-lg" />
+                  <video
+                    src={project.media}
+                    controls
+                    className="w-full rounded-lg"
+                  />
                 ) : (
-                  <img src={project.media} alt="demo" className="w-full rounded-lg" />
+                  <img
+                    src={project.media}
+                    alt="demo"
+                    className="w-full rounded-lg"
+                  />
                 )}
               </div>
 
@@ -100,8 +108,9 @@ function Projects() {
                 ))}
               </div>
 
-              <div className="flex gap-4">
-                <a
+              {/* Buttons */}
+              <div className="flex gap-4 items-center">
+                
                   href={project.github}
                   target="_blank"
                   rel="noreferrer"
@@ -109,6 +118,17 @@ function Projects() {
                 >
                   <FaGithub /> Code
                 </a>
+
+                {project.mediaType === "video" && (
+                  
+                    href={project.media}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 px-4 py-1.5 bg-purple-500/20 text-purple-400 hover:bg-purple-500/30 hover:text-purple-300 rounded-lg transition text-sm font-semibold"
+                  >
+                    ▶ Watch Demo
+                  </a>
+                )}
               </div>
             </motion.div>
           ))}
