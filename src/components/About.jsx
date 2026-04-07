@@ -68,7 +68,7 @@ function About() {
                 transition={{ delay: 0.3, duration: 0.6 }}
               >
                 <img
-                  src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/achievement.jpeg"
+                  src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/achievement2.jpeg"
                   alt="Academic Excellence Award Ceremony"
                   className="w-full rounded-lg"
                 />
