@@ -105,8 +105,7 @@ function Hero() {
             </a>
 
             <a
-              href="/resume.pdf"
-              target="_blank"
+          href="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/resume.pdf"              target="_blank"
               rel="noopener noreferrer"
               className="px-8 py-3 border border-blue-400/50 hover:border-blue-400 hover:bg-blue-400/10 rounded-lg font-bold text-white transition-all duration-200 flex items-center gap-2"
             >
@@ -157,9 +156,9 @@ function Hero() {
 
             <div className="relative bg-darkGray rounded-2xl overflow-hidden">
               <img
-                src="/profile.jpeg"
-                alt="Prikshit Gautam"
-                className="w-full h-[500px] md:h-[580px] object-cover object-top rounded-2xl"
+              src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/profile.jpeg"               
+               alt="Prikshit Gautam"
+                className="w-full h-[520px] md:h-[600px] object-cover object-top rounded-2xl"
               />
 
               {/* Availability badge overlaid on photo */}
