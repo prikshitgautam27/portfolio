@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,12 +9,49 @@
   box-sizing: border-box;
 }
 
+/* DARK MODE (default) */
+:root {
+  --bg-primary: #0a0e27;
+  --bg-secondary: #1a1f3a;
+  --text-primary: #ffffff;
+  --text-secondary: #9ca3af;
+  --border-color: rgba(59, 130, 246, 0.2);
+}
+
+/* LIGHT MODE */
+:root.light {
+  --bg-primary: #f0f4ff;
+  --bg-secondary: #ffffff;
+  --text-primary: #0a0e27;
+  --text-secondary: #4b5563;
+  --border-color: rgba(59, 130, 246, 0.3);
+}
+
 body {
-  background-color: #0a0e27;
-  color: #ffffff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+/* Apply CSS variables to all sections */
+section {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-bg-primary { background-color: var(--bg-primary) !important; }
+.theme-bg-secondary { background-color: var(--bg-secondary) !important; }
+.theme-text { color: var(--text-primary) !important; }
+.theme-text-muted { color: var(--text-secondary) !important; }
+.theme-border { border-color: var(--border-color) !important; }
+
+/* Card backgrounds */
+.theme-card {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
 }
