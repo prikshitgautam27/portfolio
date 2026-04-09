@@ -158,8 +158,8 @@ function Hero() {
               <img
               src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/profile.jpeg"               
                alt="Prikshit Gautam"
-                className="w-full h-[520px] md:h-[600px] object-cover object-top rounded-2xl"
-              />
+               className="w-full h-[500px] md:h-[580px] object-cover object-center rounded-2xl"
+                             />
 
               {/* Availability badge overlaid on photo */}
               <div className="absolute bottom-4 left-4 right-4 bg-dark/80 backdrop-blur-md rounded-xl px-4 py-3 border border-white/10 flex items-center gap-3">
