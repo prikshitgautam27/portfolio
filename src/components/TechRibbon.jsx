@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 
 const TECH_STACK = [
   // AI / ML
@@ -52,8 +51,7 @@ function TechPill({ icon, name }) {
 }
 
 export default function TechRibbon() {
-  const track1 = useRef(null);
-  const track2 = useRef(null);
+ 
 
   return (
     <div className="w-full py-4 overflow-hidden relative select-none" aria-label="Tech stack ribbon">

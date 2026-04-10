@@ -94,7 +94,6 @@ export default function GitHubHeatmap() {
   const cellGap   = 3;
   const cellStep  = cellSize + cellGap;
   const svgWidth  = weeks.length * cellStep;
-  const svgHeight = DAYS * cellStep;
 
   return (
     <motion.div
