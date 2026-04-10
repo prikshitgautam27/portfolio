@@ -60,11 +60,11 @@ function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
           >
-            Building{' '}
+            Developing{' '}
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">
-              intelligent
+              Smart &amp; Intelligent
             </span>{' '}
-            AI systems that matter.
+            AI systems .
           </motion.h1>
 
           {/* Cycling role */}
@@ -91,7 +91,7 @@ function Hero() {
           >
             Hi, I'm{' '}
             <span style={{ color: 'var(--text-primary)' }} className="font-semibold">Prikshit Gautam</span>.
-            I build AI solutions that solve real-world problems — from NLP chatbots
+            I build AI solutions that solve real-world problems  from NLP chatbots
             and computer vision systems to full-stack web apps with React, Node.js &amp; AWS.
           </motion.p>
 
