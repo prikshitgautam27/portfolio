@@ -5,7 +5,7 @@ const roles = [
   "Machine Learning Engineer",
   "NLP Specialist",
   "Computer Vision Engineer",
-  "AI Product Builder",
+  "Full Stack AI Developer",
   "Deep Learning Enthusiast",
 ];
 
@@ -37,21 +37,22 @@ function Hero() {
           transition={{ duration: 0.8 }}
           className="flex flex-col justify-center order-2 md:order-1 text-center md:text-left"
         >
-          {/* Role badge */}
+          {/* Role badge — updated to Full Stack AI Developer */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1, duration: 0.6 }}
             className="inline-flex items-center gap-2 mb-5 w-fit mx-auto md:mx-0"
           >
-            <span className="px-4 py-1.5 rounded-full border border-blue-500/40 bg-blue-500/10 text-blue-300 text-xs sm:text-sm font-semibold tracking-wide uppercase">
-              AI &amp; ML Engineer
+            <span className="px-4 py-1.5 rounded-full border border-blue-500/40 bg-blue-500/10 text-blue-400 text-xs sm:text-sm font-semibold tracking-wide uppercase">
+              Full Stack AI Developer
             </span>
           </motion.div>
 
           {/* Big headline */}
           <motion.h1
-            className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5 text-white"
+            className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5"
+            style={{ color: 'var(--text-primary)' }}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.7 }}
@@ -79,16 +80,17 @@ function Hero() {
 
           {/* Description */}
           <motion.p
-            className="text-gray-400 text-base sm:text-lg leading-relaxed mb-7 max-w-lg mx-auto md:mx-0"
+            className="text-base sm:text-lg leading-relaxed mb-7 max-w-lg mx-auto md:mx-0"
+            style={{ color: 'var(--text-secondary)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4, duration: 0.8 }}
           >
             Hi, I'm{' '}
-            <span className="text-white font-semibold">Prikshit Gautam</span>.
+            <span style={{ color: 'var(--text-primary)' }} className="font-semibold">Prikshit Gautam</span>.
             I build AI solutions that solve real-world problems — from NLP chatbots
-            to computer vision systems, combining strong ML fundamentals with
-            practical engineering.
+            and computer vision systems to full-stack web apps with React, Node.js &amp; AWS,
+            combining strong ML fundamentals with practical engineering.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -108,7 +110,8 @@ function Hero() {
               href="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 sm:px-8 py-3 border border-blue-400/50 hover:border-blue-400 hover:bg-blue-400/10 rounded-lg font-bold text-white transition-all duration-200 flex items-center gap-2 text-sm sm:text-base"
+              className="px-6 sm:px-8 py-3 border border-blue-400/50 hover:border-blue-400 hover:bg-blue-400/10 rounded-lg font-bold transition-all duration-200 flex items-center gap-2 text-sm sm:text-base"
+              style={{ color: 'var(--text-primary)' }}
             >
               Download CV ↓
             </a>
@@ -116,7 +119,8 @@ function Hero() {
 
           {/* Stats row */}
           <motion.div
-            className="flex gap-6 sm:gap-8 mt-8 pt-6 border-t border-white/10 justify-center md:justify-start"
+            className="flex gap-6 sm:gap-8 mt-8 pt-6 border-t justify-center md:justify-start"
+            style={{ borderColor: 'var(--border-color)' }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.8 }}
@@ -127,8 +131,8 @@ function Hero() {
               { num: 'Top 4%', label: 'Adobe Hackathon' },
             ].map(({ num, label }) => (
               <div key={label}>
-                <p className="text-xl sm:text-2xl font-bold text-white">{num}</p>
-                <p className="text-xs sm:text-sm text-gray-500">{label}</p>
+                <p className="text-xl sm:text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{num}</p>
+                <p className="text-xs sm:text-sm" style={{ color: 'var(--text-muted)' }}>{label}</p>
               </div>
             ))}
           </motion.div>
@@ -158,12 +162,12 @@ function Hero() {
                 className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[560px] object-cover object-top rounded-2xl"
               />
 
-              {/* Availability badge */}
-              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-dark/80 backdrop-blur-md rounded-xl px-3 sm:px-4 py-2 sm:py-3 border border-white/10 flex items-center gap-2 sm:gap-3">
+              {/* ── Availability badge — uses CSS vars, visible in both modes ── */}
+              <div className="availability-badge absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 rounded-xl px-3 sm:px-4 py-2 sm:py-3 border border-blue-400/20 flex items-center gap-2 sm:gap-3">
                 <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
                 <div>
-                  <p className="text-white font-semibold text-xs sm:text-sm">Available for Opportunities</p>
-                  <p className="text-gray-400 text-xs hidden sm:block">Open to internships &amp; collaborations</p>
+                  <p className="badge-title font-semibold text-xs sm:text-sm">Available for Opportunities</p>
+                  <p className="badge-sub text-xs hidden sm:block">Open to internships &amp; collaborations</p>
                 </div>
               </div>
             </div>

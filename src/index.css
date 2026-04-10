@@ -1,13 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
 *, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
- 
+
 /* ══════════════════════════════════════
    DARK MODE (default)
 ══════════════════════════════════════ */
@@ -18,8 +18,14 @@
   --text-secondary: #9ca3af;
   --text-muted:     #6b7280;
   --border-color:   rgba(59, 130, 246, 0.2);
+  --pill-bg:        rgba(59, 130, 246, 0.2);
+  --pill-text:      #93c5fd;
+  --card-bg:        #1a1f3a;
+  --badge-bg:       rgba(10, 14, 39, 0.85);
+  --badge-text:     #ffffff;
+  --badge-sub:      #9ca3af;
 }
- 
+
 /* ══════════════════════════════════════
    LIGHT MODE
 ══════════════════════════════════════ */
@@ -30,15 +36,19 @@
   --text-secondary: #374151;
   --text-muted:     #4b5563;
   --border-color:   rgba(59, 130, 246, 0.3);
+  --pill-bg:        rgba(59, 130, 246, 0.15);
+  --pill-text:      #1d4ed8;
+  --card-bg:        #ffffff;
+  --badge-bg:       rgba(255, 255, 255, 0.92);
+  --badge-text:     #0a0e27;
+  --badge-sub:      #374151;
 }
- 
+
 /* ══════════════════════════════════════
-   BASE STYLES
+   BASE
 ══════════════════════════════════════ */
-html {
-  scroll-behavior: smooth;
-}
- 
+html { scroll-behavior: smooth; }
+
 body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -46,69 +56,73 @@ body {
   transition: background-color 0.4s ease, color 0.4s ease;
   overflow-x: hidden;
 }
- 
+
 /* ══════════════════════════════════════
-   KEY FIX: Override hardcoded Tailwind
-   bg-dark / bg-darkGray with CSS vars.
-   This is what makes the toggle work.
+   TAILWIND OVERRIDES — bg-dark / bg-darkGray
+   Must respond to CSS vars for toggle to work
 ══════════════════════════════════════ */
 .bg-dark {
   background-color: var(--bg-primary) !important;
   transition: background-color 0.4s ease;
 }
- 
 .bg-darkGray {
   background-color: var(--bg-secondary) !important;
   transition: background-color 0.4s ease;
 }
- 
+
 section {
   color: var(--text-primary);
   transition: background-color 0.4s ease, color 0.4s ease;
 }
- 
+
 /* ══════════════════════════════════════
-   TEXT OVERRIDES (light mode visibility)
+   TECH PILLS — visible in both modes
 ══════════════════════════════════════ */
-:root.light .text-white {
-  color: var(--text-primary) !important;
+.tech-pill {
+  background-color: var(--pill-bg) !important;
+  color: var(--pill-text) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
- 
-:root.light .text-gray-300,
-:root.light .text-gray-400 {
-  color: var(--text-secondary) !important;
+
+/* ══════════════════════════════════════
+   AVAILABILITY BADGE on photo — both modes
+══════════════════════════════════════ */
+.availability-badge {
+  background-color: var(--badge-bg) !important;
+  backdrop-filter: blur(12px);
+  transition: background-color 0.4s ease;
 }
- 
-:root.light .text-gray-500 {
-  color: var(--text-muted) !important;
+.availability-badge .badge-title {
+  color: var(--badge-text) !important;
 }
- 
-/* Navbar backdrop in light mode */
-:root.light nav {
-  box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
+.availability-badge .badge-sub {
+  color: var(--badge-sub) !important;
 }
- 
-/* Border visibility in light mode */
-:root.light .border-white\/10 {
-  border-color: rgba(0, 0, 0, 0.08) !important;
-}
-:root.light .border-white\/5 {
-  border-color: rgba(0, 0, 0, 0.05) !important;
-}
- 
-/* Experience / project cards in light mode */
-:root.light .border-blue-500\/20 {
-  border-color: rgba(59, 130, 246, 0.3) !important;
-}
- 
-/* Gradient section backgrounds */
-:root.light .from-dark {
-  --tw-gradient-from: var(--bg-primary);
-}
-:root.light .to-darkGray {
-  --tw-gradient-to: var(--bg-secondary);
-}
- 
+
+/* ══════════════════════════════════════
+   LIGHT MODE TEXT OVERRIDES
+══════════════════════════════════════ */
+:root.light .text-white     { color: var(--text-primary) !important; }
+:root.light .text-gray-300  { color: var(--text-secondary) !important; }
+:root.light .text-gray-400  { color: var(--text-secondary) !important; }
+:root.light .text-gray-500  { color: var(--text-muted) !important; }
+
+/* Light mode: project card description text */
+:root.light .text-gray-300.mb-4 { color: #1f2937 !important; }
+
+/* Light mode: border tweaks */
+:root.light .border-white\/10 { border-color: rgba(0,0,0,0.08) !important; }
+:root.light .border-white\/5  { border-color: rgba(0,0,0,0.05) !important; }
+:root.light .border-blue-500\/20 { border-color: rgba(59,130,246,0.25) !important; }
+
+/* Light mode: gradient bg fix */
+:root.light .from-dark  { --tw-gradient-from: var(--bg-primary); }
+:root.light .to-darkGray { --tw-gradient-to: var(--bg-secondary); }
+
+/* Light mode: navbar subtle shadow */
+:root.light nav { box-shadow: 0 1px 12px rgba(0,0,0,0.08); }
+
 /* ══════════════════════════════════════
    SCROLLBAR
 ══════════════════════════════════════ */
