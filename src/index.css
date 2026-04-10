@@ -1,30 +1,35 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-* {
+/* ── Reset ── */
+*, *::before, *::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* DARK MODE (default) */
+/* ── CSS Variables: Dark mode (default) ── */
 :root {
-  --bg-primary: #0a0e27;
+  --bg-primary:   #0a0e27;
   --bg-secondary: #1a1f3a;
-  --text-primary: #ffffff;
+  --text-primary:   #ffffff;
   --text-secondary: #9ca3af;
   --border-color: rgba(59, 130, 246, 0.2);
 }
 
-/* LIGHT MODE */
+/* ── CSS Variables: Light mode ── */
 :root.light {
-  --bg-primary: #f0f4ff;
-  --bg-secondary: #ffffff;
-  --text-primary: #0a0e27;
+  --bg-primary:   #f0f4ff;
+  --bg-secondary: #e8eeff;
+  --text-primary:   #0a0e27;
   --text-secondary: #4b5563;
   --border-color: rgba(59, 130, 246, 0.3);
+}
+
+/* ── Base body ── */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -34,24 +39,36 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+/* ── DO NOT override section backgrounds globally ──
+   Tailwind classes like bg-dark, bg-darkGray, bg-gray-100 etc.
+   handle section colours. Overriding with !important here
+   breaks the dark/light toggle and Tailwind theming entirely. */
 
-/* Apply CSS variables to all sections */
-section {
-  background-color: var(--bg-primary) !important;
-  color: var(--text-primary) !important;
-}
-
-.theme-bg-primary { background-color: var(--bg-primary) !important; }
-.theme-bg-secondary { background-color: var(--bg-secondary) !important; }
-.theme-text { color: var(--text-primary) !important; }
-.theme-text-muted { color: var(--text-secondary) !important; }
-.theme-border { border-color: var(--border-color) !important; }
-
-/* Card backgrounds */
+/* ── Utility helper classes (opt-in, no !important) ── */
+.theme-bg-primary   { background-color: var(--bg-primary); }
+.theme-bg-secondary { background-color: var(--bg-secondary); }
+.theme-text         { color: var(--text-primary); }
+.theme-text-muted   { color: var(--text-secondary); }
+.theme-border       { border-color: var(--border-color); }
 .theme-card {
-  background-color: var(--bg-secondary) !important;
-  color: var(--text-primary) !important;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
 }
+
+/* ── Light mode: override dark Tailwind bg-* classes ──
+   Only applied when <html> has class="light"             */
+:root.light .bg-dark    { background-color: var(--bg-primary) !important; }
+:root.light .bg-darkGray { background-color: var(--bg-secondary) !important; }
+:root.light .text-gray-300 { color: #374151 !important; }
+:root.light .text-gray-400 { color: #4b5563 !important; }
+:root.light .text-gray-500 { color: #6b7280 !important; }
+:root.light .text-white    { color: #0a0e27 !important; }
+
+/* ── Scrollbar styling ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: #3b82f6; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2563eb; }
+
+/* ── Mobile: hide horizontal overflow ── */
+body { overflow-x: hidden; }

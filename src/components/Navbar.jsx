@@ -5,107 +5,152 @@ import { Link } from 'react-scroll';
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [scrolled, setScrolled] = useState(false);
 
+  /* ── Apply theme class to <html> ── */
   useEffect(() => {
+    const root = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
-      document.body.style.backgroundColor = '#0a0e27';
-      document.body.style.color = '#ffffff';
+      root.classList.remove('light');
+      root.classList.add('dark');
     } else {
-      document.documentElement.classList.remove('dark');
-      document.body.style.backgroundColor = '#f0f4ff';
-      document.body.style.color = '#0a0e27';
+      root.classList.remove('dark');
+      root.classList.add('light');
     }
   }, [darkMode]);
 
-  const navLinks = ['home', 'about', 'skills', 'projects', 'experience', 'contact'];
+  /* ── Shrink navbar shadow on scroll ── */
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /* ── Auto-close mobile menu on desktop resize ── */
+  useEffect(() => {
+    const onResize = () => { if (window.innerWidth >= 768) setMenuOpen(false); };
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
+
+  const navLinks = [
+    { id: 'home',       label: 'Home' },
+    { id: 'about',      label: 'About' },
+    { id: 'skills',     label: 'Skills' },
+    { id: 'projects',   label: 'Projects' },
+    { id: 'experience', label: 'Experience' },
+    { id: 'contact',    label: 'Contact' },
+  ];
 
   return (
-    <nav className="fixed top-0 w-full bg-darkGray/80 backdrop-blur-md z-50 shadow-lg">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav
+      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+        scrolled ? 'bg-darkGray/95 shadow-lg py-3' : 'bg-darkGray/80 py-4'
+      } backdrop-blur-md`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 flex justify-between items-center">
 
-        {/* Logo */}
-        <h1 className="text-xl font-bold text-blue-400">Prikshit Gautam</h1>
+        {/* ── Logo ── */}
+        <Link
+          to="home"
+          smooth
+          className="cursor-pointer text-lg sm:text-xl font-bold text-blue-400 hover:text-blue-300 transition select-none"
+        >
+          Prikshit<span className="text-white">.</span>
+        </Link>
 
-        {/* Desktop Nav Links */}
-        <div className="hidden md:flex gap-8">
-          {navLinks.map((link) => (
+        {/* ── Desktop Nav Links ── */}
+        <div className="hidden md:flex gap-5 lg:gap-8 items-center">
+          {navLinks.map(({ id, label }) => (
             <Link
-              key={link}
-              to={link}
+              key={id}
+              to={id}
               smooth
-              className="cursor-pointer capitalize hover:text-blue-400 transition"
+              offset={-80}
+              className="cursor-pointer text-sm lg:text-base text-gray-300 hover:text-blue-400 transition-colors duration-200 relative group"
             >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
+              {label}
+              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-400 rounded-full transition-all duration-300 group-hover:w-full" />
             </Link>
           ))}
         </div>
 
-        {/* Desktop Right: Social + Toggle */}
-        <div className="hidden md:flex gap-4 text-xl items-center">
-          <a href="https://github.com/prikshitgautam27" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
+        {/* ── Desktop: Socials + Theme toggle ── */}
+        <div className="hidden md:flex gap-3 items-center">
+          <a href="https://github.com/prikshitgautam27" target="_blank" rel="noopener noreferrer"
+            className="text-gray-400 hover:text-blue-400 transition text-lg" aria-label="GitHub">
             <FaGithub />
           </a>
-          <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition">
+          <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer"
+            className="text-gray-400 hover:text-blue-400 transition text-lg" aria-label="LinkedIn">
             <FaLinkedin />
           </a>
-          <a href="mailto:pgautamlinkedin@gmail.com" className="hover:text-blue-400 transition">
+          <a href="mailto:pgautamlinkedin@gmail.com"
+            className="text-gray-400 hover:text-blue-400 transition text-lg" aria-label="Email">
             <FaEnvelope />
           </a>
-
-          {/* Dark/Light Toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="ml-2 p-2 rounded-full border border-blue-400/40 hover:border-blue-400 hover:bg-blue-400/10 transition text-lg"
+            className="ml-1 p-2 rounded-full border border-blue-400/40 hover:border-blue-400 hover:bg-blue-400/10 transition-all duration-200"
             aria-label="Toggle theme"
           >
-            {darkMode ? <FaSun className="text-yellow-400" /> : <FaMoon className="text-blue-400" />}
+            {darkMode
+              ? <FaSun className="text-yellow-400 text-sm" />
+              : <FaMoon className="text-blue-400 text-sm" />}
           </button>
         </div>
 
-        {/* Mobile Right: Toggle + Hamburger */}
-        <div className="flex md:hidden items-center gap-3">
+        {/* ── Mobile: Theme toggle + Hamburger ── */}
+        <div className="flex md:hidden items-center gap-2">
           <button
             onClick={() => setDarkMode(!darkMode)}
-            className="p-2 rounded-full border border-blue-400/40 hover:border-blue-400 transition"
+            className="p-1.5 rounded-full border border-blue-400/40 hover:border-blue-400 transition"
             aria-label="Toggle theme"
           >
-            {darkMode ? <FaSun className="text-yellow-400 text-sm" /> : <FaMoon className="text-blue-400 text-sm" />}
+            {darkMode
+              ? <FaSun className="text-yellow-400 text-xs" />
+              : <FaMoon className="text-blue-400 text-xs" />}
           </button>
-
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="text-2xl text-white hover:text-blue-400 transition"
-            aria-label="Toggle menu"
+            className="p-1.5 text-white hover:text-blue-400 transition text-xl"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
           >
             {menuOpen ? <FaTimes /> : <FaBars />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
-      {menuOpen && (
-        <div className="md:hidden bg-darkGray/95 backdrop-blur-md px-6 pb-6 flex flex-col gap-4 border-t border-blue-500/20">
-          {navLinks.map((link) => (
+      {/* ── Mobile Dropdown (smooth slide) ── */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          menuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+        }`}
+      >
+        <div className="bg-darkGray/98 backdrop-blur-md px-4 pb-6 pt-2 border-t border-blue-500/20 flex flex-col">
+          {navLinks.map(({ id, label }) => (
             <Link
-              key={link}
-              to={link}
+              key={id}
+              to={id}
               smooth
+              offset={-80}
               onClick={() => setMenuOpen(false)}
-              className="cursor-pointer capitalize text-lg hover:text-blue-400 transition py-1 border-b border-white/5"
+              className="cursor-pointer text-base text-gray-300 hover:text-blue-400 transition-colors py-3 border-b border-white/5 last:border-b-0 flex items-center gap-2"
             >
-              {link.charAt(0).toUpperCase() + link.slice(1)}
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500/60 flex-shrink-0" />
+              {label}
             </Link>
           ))}
-
-          {/* Social icons in mobile menu */}
-          <div className="flex gap-5 text-xl pt-2">
-            <a href="https://github.com/prikshitgautam27" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition"><FaGithub /></a>
-            <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition"><FaLinkedin /></a>
-            <a href="mailto:pgautamlinkedin@gmail.com" className="hover:text-blue-400 transition"><FaEnvelope /></a>
+          <div className="flex gap-5 text-xl pt-4 mt-1">
+            <a href="https://github.com/prikshitgautam27" target="_blank" rel="noopener noreferrer"
+              className="text-gray-400 hover:text-blue-400 transition"><FaGithub /></a>
+            <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer"
+              className="text-gray-400 hover:text-blue-400 transition"><FaLinkedin /></a>
+            <a href="mailto:pgautamlinkedin@gmail.com"
+              className="text-gray-400 hover:text-blue-400 transition"><FaEnvelope /></a>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }
