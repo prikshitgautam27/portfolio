@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  
   content: [
     "./public/index.html",
     "./src/**/*.{js,jsx}",
@@ -8,10 +7,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        dark: "#0a0e27",
-        darkGray: "#1a1f3a",
+        // These now reference CSS variables, so they respond to the toggle
+        dark:    "var(--bg-primary)",
+        darkGray:"var(--bg-secondary)",
+      },
+      backdropBlur: {
+        md: '12px',
       },
     },
   },
   plugins: [],
 }
+ 
