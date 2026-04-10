@@ -1,5 +1,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import GitHubHeatmap from './GitHubHeatmap';
+import TechRibbon from './TechRibbon';
 
 const roles = [
   "Machine Learning Engineer",
@@ -22,22 +24,23 @@ function Hero() {
   return (
     <section
       id="home"
-      className="min-h-screen flex items-center pt-20 pb-12 px-4 sm:px-6 md:px-16 bg-gradient-to-b from-dark to-darkGray relative overflow-hidden"
+      className="min-h-screen flex flex-col justify-center pt-20 pb-0 bg-gradient-to-b from-dark to-darkGray relative overflow-hidden"
     >
       {/* Background glow blobs */}
       <div className="absolute top-1/4 left-1/4 w-72 md:w-96 h-72 md:h-96 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-60 md:w-80 h-60 md:h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10">
+      {/* ── TOP: Two-column hero ── */}
+      <div className="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-10 lg:gap-16 items-center relative z-10 px-4 sm:px-6 md:px-16 py-10">
 
-        {/* ── LEFT: Text Content ── */}
+        {/* LEFT: Text */}
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
           className="flex flex-col justify-center order-2 md:order-1 text-center md:text-left"
         >
-          {/* Role badge — updated to Full Stack AI Developer */}
+          {/* Badge */}
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -49,7 +52,7 @@ function Hero() {
             </span>
           </motion.div>
 
-          {/* Big headline */}
+          {/* Headline */}
           <motion.h1
             className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-bold leading-tight mb-5"
             style={{ color: 'var(--text-primary)' }}
@@ -89,8 +92,7 @@ function Hero() {
             Hi, I'm{' '}
             <span style={{ color: 'var(--text-primary)' }} className="font-semibold">Prikshit Gautam</span>.
             I build AI solutions that solve real-world problems — from NLP chatbots
-            and computer vision systems to full-stack web apps with React, Node.js &amp; AWS,
-            combining strong ML fundamentals with practical engineering.
+            and computer vision systems to full-stack web apps with React, Node.js &amp; AWS.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -117,7 +119,7 @@ function Hero() {
             </a>
           </motion.div>
 
-          {/* Stats row */}
+          {/* Stats */}
           <motion.div
             className="flex gap-6 sm:gap-8 mt-8 pt-6 border-t justify-center md:justify-start"
             style={{ borderColor: 'var(--border-color)' }}
@@ -138,7 +140,7 @@ function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* ── RIGHT: Large Photo ── */}
+        {/* RIGHT: Photo */}
         <motion.div
           className="relative flex justify-center order-1 md:order-2"
           initial={{ opacity: 0, x: 40 }}
@@ -146,23 +148,18 @@ function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl blur-2xl scale-105 pointer-events-none" />
-
           <motion.div
             className="relative w-full max-w-[300px] sm:max-w-sm md:max-w-md"
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
           >
-            {/* Gradient border */}
             <div className="absolute -inset-1 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-60 blur-sm" />
-
             <div className="relative bg-darkGray rounded-2xl overflow-hidden">
               <img
                 src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/profile.jpeg"
                 alt="Prikshit Gautam"
                 className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[560px] object-cover object-top rounded-2xl"
               />
-
-              {/* ── Availability badge — uses CSS vars, visible in both modes ── */}
               <div className="availability-badge absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 rounded-xl px-3 sm:px-4 py-2 sm:py-3 border border-blue-400/20 flex items-center gap-2 sm:gap-3">
                 <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-400 animate-pulse flex-shrink-0" />
                 <div>
@@ -173,8 +170,35 @@ function Hero() {
             </div>
           </motion.div>
         </motion.div>
-
       </div>
+
+      {/* ── BOTTOM FULL-WIDTH SECTION ── */}
+      <div className="relative z-10 w-full px-4 sm:px-6 md:px-16 pb-6">
+        <div className="max-w-7xl mx-auto">
+
+          {/* Divider */}
+          <div className="w-full h-px mb-8" style={{ background: 'var(--border-color)' }} />
+
+          {/* GitHub Heatmap */}
+          <GitHubHeatmap />
+
+        </div>
+      </div>
+
+      {/* ── TECH RIBBON — full bleed, no padding ── */}
+      <div className="relative z-10 w-full pb-10">
+        <motion.p
+          className="text-center text-xs font-semibold tracking-widest uppercase mb-3"
+          style={{ color: 'var(--text-muted)' }}
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+        >
+          Tech Stack
+        </motion.p>
+        <TechRibbon />
+      </div>
+
     </section>
   );
 }
