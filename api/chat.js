@@ -72,7 +72,7 @@ AVAILABILITY:
       method:  "POST",
       headers: {
         "Content-Type":         "application/json",
-        "x-api-key":            process.env.ANTHROPIC_API_KEY, // set in Vercel dashboard
+        "x-api-key":            process.env.pgautam_api, // set in Vercel dashboard
         "anthropic-version":    "2023-06-01",
       },
       body: JSON.stringify({
