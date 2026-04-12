@@ -6,13 +6,13 @@ function Projects() {
     {
       title: "5G Latency Predictor — Real-World Delay Forecasting",
       description:
-        "Analyzed 40,000+ real-world 5G packet traces from KTH Expeca testbed (Sweden), identifying RLC frame alignment as root cause of latency. Designed and benchmarked three neural architectures (RNN, LSTM, Hybrid LSTM), achieving 95% accuracy in forecasting IP delay.",
+        "Analyzed 40,000+ real-world 5G packet traces from KTH Expeca testbed (Sweden), identifying RLC frame alignment as root cause of latency. Designed and benchmarked three neural architectures (RNN, LSTM, Hybrid LSTM), achieving 94.68% accuracy in forecasting IP delay.",
       tech: ["PyTorch", "Keras", "LSTM", "RNN", "Statistical Analysis", "Python"],
-      metrics: "95% forecasting accuracy · 45% reduced prediction variance · 40K+ real traces",
-      github: "https://github.com/prikshitgautam27",
+      metrics: "94.68% accuracy · 0.201ms MAE · 45% reduced variance · 40K+ real traces",
+      github: "https://github.com/gourav-prateek-sharma/5G-delay-Timeseries-Precapstone",
       live: "https://forcasting-5g.vercel.app/",
-      mediaType: "none",
-      media: "",
+      mediaType: "image",
+      media: "/5g-demo.jpeg",
       badge: "Research Project",
       date: "Aug 2024 – Jul 2025",
     },
@@ -106,7 +106,7 @@ function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1, duration: 0.6 }}
             >
-              {/* Media Preview */}
+              {/* ── Video preview ── */}
               {project.mediaType === "video" && (
                 <div className="border-b border-blue-500/10 flex-shrink-0">
                   <video
@@ -118,41 +118,98 @@ function Projects() {
                 </div>
               )}
 
+              {/* ── Image preview ── */}
               {project.mediaType === "image" && (
-                <div className="border-b border-blue-500/10 flex-shrink-0">
+                <div
+                  className="border-b border-blue-500/10 flex-shrink-0 overflow-hidden relative"
+                  style={{ height: '200px' }}
+                >
                   <img
                     src={project.media}
-                    alt="demo"
-                    className="w-full"
-                    style={{ maxHeight: '200px', objectFit: 'cover' }}
+                    alt={project.title}
+                    style={{
+                      width:          '100%',
+                      height:         '100%',
+                      objectFit:      'cover',
+                      objectPosition: 'top',
+                      display:        'block',
+                    }}
                   />
-                </div>
-              )}
 
-              {/* Placeholder for no media */}
-              {project.mediaType === "none" && (
-                <div
-                  className="w-full flex items-center justify-between px-5 border-b border-blue-500/10 flex-shrink-0"
-                  style={{
-                    height: '64px',
-                    background: 'linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08))',
-                  }}
-                >
-                  <span
-                    className="text-xs font-semibold tracking-widest uppercase"
-                    style={{ color: 'var(--pill-text)' }}
-                  >
-                    {project.badge || "Project"}
-                  </span>
+                  {/* Live badge overlaid top-right */}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{
+                        position:       'absolute',
+                        top:            '10px',
+                        right:          '10px',
+                        display:        'flex',
+                        alignItems:     'center',
+                        gap:            '5px',
+                        padding:        '4px 10px',
+                        borderRadius:   '20px',
+                        background:     'rgba(0,0,0,0.65)',
+                        backdropFilter: 'blur(8px)',
+                        border:         '1px solid rgba(59,130,246,0.4)',
+                        color:          '#60a5fa',
+                        fontSize:       '11px',
+                        fontWeight:     600,
+                        textDecoration: 'none',
+                        transition:     'all 0.2s',
+                      }}
+                      onMouseEnter={e => e.currentTarget.style.background = 'rgba(59,130,246,0.3)'}
+                      onMouseLeave={e => e.currentTarget.style.background = 'rgba(0,0,0,0.65)'}
+                    >
+                      <span style={{
+                        width: '6px', height: '6px', borderRadius: '50%',
+                        background: '#22c55e', display: 'inline-block',
+                      }} />
+                      Live
+                    </a>
+                  )}
+
+                  {/* Date badge overlaid bottom-left */}
                   {project.date && (
-                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    <span style={{
+                      position:       'absolute',
+                      bottom:         '10px',
+                      left:           '10px',
+                      padding:        '3px 9px',
+                      borderRadius:   '12px',
+                      background:     'rgba(0,0,0,0.6)',
+                      backdropFilter: 'blur(6px)',
+                      color:          '#94a3b8',
+                      fontSize:       '10px',
+                      fontWeight:     500,
+                    }}>
                       {project.date}
                     </span>
                   )}
                 </div>
               )}
 
-              {/* Card Body */}
+              {/* ── No-media placeholder ── */}
+              {project.mediaType === "none" && (
+                <div
+                  className="w-full flex items-center justify-between px-5 border-b border-blue-500/10 flex-shrink-0"
+                  style={{
+                    height:     '64px',
+                    background: 'linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08))',
+                  }}
+                >
+                  <span className="text-xs font-semibold tracking-widest uppercase" style={{ color: 'var(--pill-text)' }}>
+                    {project.badge || "Project"}
+                  </span>
+                  {project.date && (
+                    <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{project.date}</span>
+                  )}
+                </div>
+              )}
+
+              {/* ── Card body ── */}
               <div className="p-6 sm:p-7 flex flex-col flex-1">
 
                 <h3 className="text-base sm:text-lg font-bold text-blue-400 mb-3 leading-snug">
@@ -167,9 +224,19 @@ function Projects() {
                 </p>
 
                 {/* Metrics */}
-                <div className="mb-4 p-3 rounded-lg" style={{ background: 'rgba(59,130,246,0.05)', borderLeft: '3px solid rgba(59,130,246,0.4)' }}>
-                  <p className="text-xs text-purple-400 font-semibold mb-0.5 uppercase tracking-wide">Key Metrics</p>
-                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{project.metrics}</p>
+                <div
+                  className="mb-4 p-3 rounded-lg"
+                  style={{
+                    background: 'rgba(59,130,246,0.05)',
+                    borderLeft: '3px solid rgba(59,130,246,0.4)',
+                  }}
+                >
+                  <p className="text-xs text-purple-400 font-semibold mb-0.5 uppercase tracking-wide">
+                    Key Metrics
+                  </p>
+                  <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+                    {project.metrics}
+                  </p>
                 </div>
 
                 {/* Tech pills */}
@@ -185,7 +252,7 @@ function Projects() {
                 </div>
 
                 {/* Action buttons */}
-                <div className="flex gap-4 mt-auto">
+                <div className="flex items-center gap-4 mt-auto">
                   <a
                     href={project.github}
                     target="_blank"
@@ -196,7 +263,6 @@ function Projects() {
                     <FaGithub className="text-base" /> Code
                   </a>
 
-                  {/* Live link — only shown when project has one */}
                   {project.live && (
                     <a
                       href={project.live}
@@ -204,9 +270,9 @@ function Projects() {
                       rel="noreferrer"
                       className="flex items-center gap-1.5 text-sm font-semibold px-4 py-1.5 rounded-full transition-all duration-200 hover:scale-105"
                       style={{
-                        background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                        color: '#ffffff',
-                        boxShadow: '0 2px 10px rgba(59,130,246,0.35)',
+                        background: 'linear-gradient(135deg,#3b82f6,#8b5cf6)',
+                        color:      '#ffffff',
+                        boxShadow:  '0 2px 10px rgba(59,130,246,0.35)',
                       }}
                     >
                       <FaExternalLinkAlt className="text-xs" /> Live Demo
