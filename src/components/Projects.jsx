@@ -12,7 +12,7 @@ function Projects() {
       github: "https://github.com/gourav-prateek-sharma/5G-delay-Timeseries-Precapstone",
       live: "https://forcasting-5g.vercel.app/",
       mediaType: "image",
-      media: "/5g-demo.jpeg",
+      media: "/5g-delay.png",
       badge: "Research Project",
       date: "Aug 2024 – Jul 2025",
     },
