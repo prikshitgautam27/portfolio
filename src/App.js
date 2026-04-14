@@ -10,15 +10,7 @@ import Footer          from './components/Footer';
 import PageLoader      from './components/PageLoader';
 import CursorFollower  from './components/CursorFollower';
 import AskPrikshit     from './components/AskPrikshit';
-
-/*
-  KEY FIX:
-  - Site is ALWAYS mounted in the DOM (never conditionally rendered)
-  - It starts with visibility:hidden so it takes up layout but is invisible
-  - When loader finishes, we flip to visibility:visible + fade in
-  - This means Hero's framer-motion animations only fire AFTER loader exits
-  - No double animation, no flash, no conflict
-*/
+import LeetCodeStats   from './components/LeetCodeStats';
 
 export default function App() {
   const [siteVisible, setSiteVisible] = useState(false);
@@ -29,13 +21,9 @@ export default function App() {
 
   return (
     <>
-      {/* Custom cursor */}
       <CursorFollower />
-
-      {/* Loader — pure CSS, no framer-motion conflicts */}
       <PageLoader onComplete={handleLoaderDone} />
 
-      {/* Site — hidden until loader done, then fades in */}
       <div
         style={{
           visibility: siteVisible ? "visible" : "hidden",
@@ -51,6 +39,20 @@ export default function App() {
         <Experience />
         <Projects />
         <Contact />
+
+        {/* ── LeetCode Stats — above Footer ── */}
+        <section className="py-16 px-4 sm:px-6 md:px-16 bg-dark">
+          <div className="max-w-6xl mx-auto">
+            <p
+              className="text-center text-xs font-semibold tracking-widest uppercase mb-6"
+              style={{ color: 'var(--text-muted)' }}
+            >
+              LeetCode Stats
+            </p>
+            <LeetCodeStats />
+          </div>
+        </section>
+
         <Footer />
         <AskPrikshit />
       </div>
