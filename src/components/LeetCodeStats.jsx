@@ -143,7 +143,7 @@ export default function LeetCodeStats() {
           className="text-xs hover:underline transition"
           style={{ color: '#ffa500' }}
         >
-          @{USERNAME} ↗
+          
         </a>
       </div>
 
@@ -205,7 +205,7 @@ export default function LeetCodeStats() {
                 className="text-sm font-semibold"
                 style={{ color: '#ffa500' }}
               >
-                View on LeetCode ↗
+                
               </a>
             </div>
           ) : (
