@@ -39,7 +39,7 @@ function Projects() {
       live: null,
       mediaType: "video",
       media: "/visioncare-demo.mp4",
-      badge: null,
+      badge: "Business/Innovation Project",
       date: null,
     },
     {
@@ -49,10 +49,10 @@ function Projects() {
       tech: ["LLM", "RAG", "FAISS", "LangChain", "Hugging Face"],
       metrics: "40% relevance improvement · 2050+ medical topics",
       github: "https://github.com/prikshitgautam27/AI_powered_healthcare",
-      live: null,
+      live: "https://pgautam-healthcare-limited.streamlit.app/",
       mediaType: "image",
       media: "/healthcare-demo.jpg",
-      badge: null,
+      badge: "Internship Project",
       date: null,
     },
     {
