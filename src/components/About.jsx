@@ -54,10 +54,10 @@ function About() {
               <h3 className="text-2xl font-bold mb-6 text-blue-300">Quick Facts</h3>
 
               <ul className="space-y-4 text-gray-300 text-lg">
-                <li>📍 <strong className="text-white">Location:</strong> Patiala, Punjab</li>
-                <li>🎓 <strong className="text-white">College:</strong> Thapar Institute (2023–2027)</li>
-                <li>💡 <strong className="text-white">Skills:</strong> NLP, CV, ML, Deep Learning</li>
-                <li>🏆 <strong className="text-white">Achievement:</strong> Adobe Hackathon — Top 4029 / 115,000</li>
+                <li> <strong className="text-white">Location:</strong> Patiala, Punjab</li>
+                <li> <strong className="text-white">College:</strong> Thapar Institute (2023–2027)</li>
+                <li> <strong className="text-white">Skills:</strong> NLP, CV, ML, Deep Learning</li>
+                <li> <strong className="text-white">Achievement:</strong> Adobe Hackathon — Top 4029 / 115,000</li>
               </ul>
 
               {/* Achievement Photo */}
@@ -69,7 +69,7 @@ function About() {
               >
                 <img
                   src="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/achievement2.jpeg"
-                  alt="Academic Excellence Award Ceremony"
+                  alt="Academic Excellence Award Ceremony 🏆"
                   className="w-full rounded-lg"
                 />
                 <p className="text-xs text-gray-500 text-center py-2">
