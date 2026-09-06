@@ -222,7 +222,7 @@ export default function LeetCodeStats() {
           className="text-xs hover:underline transition"
           style={{ color: '#ffa500' }}
         >
-          View profile →
+          
         </a>
       </div>
 
