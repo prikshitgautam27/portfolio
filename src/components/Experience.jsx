@@ -73,10 +73,17 @@ function Experience() {
             rel="noopener noreferrer"
             className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 font-semibold hover:opacity-90 transition-opacity"
           >
-            Credentials
+            View Project
           </a>{" "}
-         
-          
+          |{" "}
+          <a
+            href={certLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 font-semibold hover:opacity-90 transition-opacity"
+          >
+            Credential
+          </a>
         </>
       ),
       tags: ["YOLOv8", "OpenCV", "SUMO", "TraCI"],
@@ -84,7 +91,13 @@ function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-20 px-6" style={{ backgroundColor: "#E8EEFC" }}>
+    <section
+      id="experience"
+      className="py-20 px-6 bg-darkGray transition-colors duration-300 relative overflow-hidden"
+    >
+      {/* Animated border glow */}
+      <div className="absolute inset-0 border-t-4 border-transparent bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
+
       <div className="max-w-7xl mx-auto">
         <motion.h2
           className="text-5xl font-bold mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
@@ -97,20 +110,20 @@ function Experience() {
         </motion.h2>
 
         {/* Timeline line */}
-        <div className="relative flex items-center justify-between">
+        <div className="relative flex items-center justify-center gap-6">
           <div className="absolute top-1/2 left-0 w-full border-t-2 border-blue-400"></div>
 
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
-              className="relative bg-white shadow-md rounded-xl p-6 w-[22%] border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+              className="relative bg-white shadow-md rounded-xl p-6 w-[26%] border border-gray-200 hover:shadow-xl hover:border-blue-400 transition-all duration-300 dark:bg-[var(--card-bg)]"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2, duration: 0.8 }}
               viewport={{ once: true }}
             >
               {/* Timeline dot */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-[#E8EEFC]"></div>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-[var(--bg-secondary)]"></div>
 
               <p className="text-sm text-gray-500 mb-2">{exp.date}</p>
               <h3 className="text-xl font-bold text-blue-600">{exp.title}</h3>
@@ -120,10 +133,7 @@ function Experience() {
 
               <div className="flex flex-wrap gap-2 mt-3">
                 {exp.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-md border border-gray-300"
-                  >
+                  <span key={idx} className="text-xs tech-pill px-2 py-1 rounded-md">
                     {tag}
                   </span>
                 ))}
@@ -137,3 +147,4 @@ function Experience() {
 }
 
 export default Experience;
+  
