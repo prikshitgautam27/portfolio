@@ -93,14 +93,14 @@ function Experience() {
   return (
     <section
       id="experience"
-      className="py-20 px-6 bg-darkGray transition-colors duration-300 relative overflow-hidden"
+      className="py-14 sm:py-20 px-4 sm:px-6 bg-darkGray transition-colors duration-300 relative overflow-hidden"
     >
       {/* Animated border glow */}
       <div className="absolute inset-0 border-t-4 border-transparent bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 hover:opacity-100 transition-opacity duration-700"></div>
 
       <div className="max-w-7xl mx-auto">
         <motion.h2
-          className="text-5xl font-bold mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
+          className="text-3xl sm:text-4xl md:text-5xl font-bold mb-10 sm:mb-12 md:mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -110,26 +110,31 @@ function Experience() {
         </motion.h2>
 
         {/* Timeline line */}
-        <div className="relative flex items-center justify-center gap-6">
-          <div className="absolute top-1/2 left-0 w-full border-t-2 border-blue-400"></div>
+        <div className="relative flex flex-col md:flex-row items-stretch md:items-center justify-center gap-10 md:gap-6">
+          {/* Horizontal line — desktop/tablet row layout only */}
+          <div className="hidden md:block absolute top-1/2 left-0 w-full border-t-2 border-blue-400"></div>
+          {/* Vertical line — mobile stacked layout only */}
+          <div className="md:hidden absolute left-3 top-0 bottom-0 w-0.5 bg-blue-400"></div>
 
           {experiences.map((exp, index) => (
             <motion.div
               key={index}
-              className="relative bg-white shadow-md rounded-xl p-6 w-[26%] border border-gray-200 hover:shadow-xl hover:border-blue-400 transition-all duration-300 dark:bg-[var(--card-bg)]"
+              className="relative bg-white shadow-md rounded-xl p-5 sm:p-6 w-full md:w-[26%] ml-8 md:ml-0 border border-gray-200 hover:shadow-xl hover:border-blue-400 transition-all duration-300 dark:bg-[var(--card-bg)]"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2, duration: 0.8 }}
               viewport={{ once: true }}
             >
-              {/* Timeline dot */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-[var(--bg-secondary)]"></div>
+              {/* Timeline dot — desktop: top center */}
+              <div className="hidden md:block absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-[var(--bg-secondary)]"></div>
+              {/* Timeline dot — mobile: left edge, aligned to vertical line */}
+              <div className="md:hidden absolute top-6 -left-[29px] w-4 h-4 bg-blue-500 rounded-full border-4 border-[var(--bg-secondary)]"></div>
 
-              <p className="text-sm text-gray-500 mb-2">{exp.date}</p>
-              <h3 className="text-xl font-bold text-blue-600">{exp.title}</h3>
-              <p className="text-gray-600 mb-2">{exp.company}</p>
-              <p className="text-gray-700 mb-3">{exp.description}</p>
-              <p className="text-gray-700 mb-3">{exp.highlight}</p>
+              <p className="text-xs sm:text-sm text-gray-500 mb-2">{exp.date}</p>
+              <h3 className="text-lg sm:text-xl font-bold text-blue-600">{exp.title}</h3>
+              <p className="text-sm sm:text-base text-gray-600 mb-2">{exp.company}</p>
+              <p className="text-sm sm:text-base text-gray-700 mb-3">{exp.description}</p>
+              <p className="text-sm sm:text-base text-gray-700 mb-3">{exp.highlight}</p>
 
               <div className="flex flex-wrap gap-2 mt-3">
                 {exp.tags.map((tag, idx) => (
