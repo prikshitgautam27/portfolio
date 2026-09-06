@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import GitHubHeatmap from './GitHubHeatmap';
 import TechRibbon from './TechRibbon';
+import ResumeViewer from './ResumeViewer';
 
 const roles = [
   "Machine Learning Engineer",
@@ -13,6 +14,7 @@ const roles = [
 
 function Hero() {
   const [index, setIndex] = useState(0);
+  const [resumeOpen, setResumeOpen] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -108,15 +110,13 @@ function Hero() {
             >
               View My Work →
             </a>
-            <a
-              href="https://raw.githubusercontent.com/prikshitgautam27/portfolio/main/public/resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setResumeOpen(true)}
               className="px-6 sm:px-8 py-3 border border-blue-400/50 hover:border-blue-400 hover:bg-blue-400/10 rounded-lg font-bold transition-all duration-200 flex items-center gap-2 text-sm sm:text-base"
               style={{ color: 'var(--text-primary)' }}
             >
-              Download CV ↓
-            </a>
+              View Resume ↓
+            </button>
           </motion.div>
 
           {/* Stats */}
@@ -198,6 +198,9 @@ function Hero() {
         </motion.p>
         <TechRibbon />
       </div>
+
+      {/* ── Resume viewer modal ── */}
+      <ResumeViewer open={resumeOpen} onClose={() => setResumeOpen(false)} />
 
     </section>
   );
