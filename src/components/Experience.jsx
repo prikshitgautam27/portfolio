@@ -91,7 +91,7 @@ function Experience() {
   ];
 
   return (
-    <section id="experience" className="py-20 px-6 bg-gray-50">
+    <section id="experience" className="py-20 px-6" style={{ backgroundColor: "#E8EEFC" }}>
       <div className="max-w-7xl mx-auto">
         <motion.h2
           className="text-5xl font-bold mb-16 text-center text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500"
@@ -117,7 +117,7 @@ function Experience() {
               viewport={{ once: true }}
             >
               {/* Timeline dot */}
-              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-gray-50"></div>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-500 rounded-full border-4 border-[#E8EEFC]"></div>
 
               <p className="text-sm text-gray-500 mb-2">{exp.date}</p>
               <h3 className="text-xl font-bold text-blue-600">{exp.title}</h3>
