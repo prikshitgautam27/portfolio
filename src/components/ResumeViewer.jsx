@@ -112,7 +112,7 @@ export default function ResumeViewer({ open, onClose }) {
               flexShrink: 0,
             }}>
               <p style={{ color: "#e2e8f0", fontWeight: 700, fontSize: "15px", margin: 0 }}>
-                Resume — View Only
+                Resume — View Only{numPages > 0 ? ` · ${numPages} page${numPages !== 1 ? "s" : ""}` : ""}
               </p>
               <button
                 onClick={onClose}
