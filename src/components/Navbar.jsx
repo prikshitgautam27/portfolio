@@ -85,7 +85,7 @@ function Navbar() {
             className="hover:text-blue-500 transition text-lg" style={{ color: 'var(--text-muted)' }}>
             <FaGithub />
           </a>
-          <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer"
+          <a href="https://www.linkedin.com/in/prikshitgautam0055/" target="_blank" rel="noopener noreferrer"
             className="hover:text-blue-500 transition text-lg" style={{ color: 'var(--text-muted)' }}>
             <FaLinkedin />
           </a>
@@ -155,7 +155,7 @@ function Navbar() {
           <div className="flex gap-5 text-xl pt-4 mt-1">
             <a href="https://github.com/prikshitgautam27" target="_blank" rel="noopener noreferrer"
               className="hover:text-blue-500 transition" style={{ color: 'var(--text-muted)' }}><FaGithub /></a>
-            <a href="https://linkedin.com/in/prikshit-gautam" target="_blank" rel="noopener noreferrer"
+            <a href="https://www.linkedin.com/in/prikshitgautam0055/" target="_blank" rel="noopener noreferrer"
               className="hover:text-blue-500 transition" style={{ color: 'var(--text-muted)' }}><FaLinkedin /></a>
             <a href="mailto:pgautamlinkedin@gmail.com"
               className="hover:text-blue-500 transition" style={{ color: 'var(--text-muted)' }}><FaEnvelope /></a>
