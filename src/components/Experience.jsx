@@ -73,17 +73,10 @@ function Experience() {
             rel="noopener noreferrer"
             className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 font-semibold hover:opacity-90 transition-opacity"
           >
-            View Project
+            Credentials
           </a>{" "}
-          |{" "}
-          <a
-            href={certLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-blue-500 to-purple-500 font-semibold hover:opacity-90 transition-opacity"
-          >
-            Credential
-          </a>
+         
+          
         </>
       ),
       tags: ["YOLOv8", "OpenCV", "SUMO", "TraCI"],
