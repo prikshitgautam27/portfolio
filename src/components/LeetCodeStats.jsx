@@ -7,17 +7,17 @@ const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov
 
 function getColor(count, isDark) {
   if (isDark) {
-    if (count === 0) return "#1a1f3a";
-    if (count <= 2)  return "#ffa5001a";
-    if (count <= 5)  return "#ffa50066";
-    if (count <= 9)  return "#ffa500aa";
-    return "#ffa500";
+    if (count === 0) return "#161b22";
+    if (count <= 2)  return "#0e4429";
+    if (count <= 5)  return "#006d32";
+    if (count <= 9)  return "#26a641";
+    return "#39d353";
   } else {
-    if (count === 0) return "#f0f0f0";
-    if (count <= 2)  return "#ffe0a0";
-    if (count <= 5)  return "#ffbf47";
-    if (count <= 9)  return "#ff9800";
-    return "#e65100";
+    if (count === 0) return "#ebedf0";
+    if (count <= 2)  return "#9be9a8";
+    if (count <= 5)  return "#40c463";
+    if (count <= 9)  return "#30a14e";
+    return "#216e39";
   }
 }
 
@@ -41,11 +41,57 @@ export default function LeetCodeStats() {
     return () => obs.disconnect();
   }, []);
 
+  /* Normalize slightly different response shapes across mirror APIs into one
+     consistent object, since not every mirror returns the same field names. */
+  const normalize = (d) => {
+    if (!d) return d;
+
+    // acceptanceRate: some APIs omit it and only give a totalSubmissions[] breakdown
+    let acceptanceRate = d.acceptanceRate;
+    if (acceptanceRate == null && Array.isArray(d.totalSubmissions)) {
+      const all = d.totalSubmissions.find((s) => s.difficulty === 'All');
+      if (all && all.submissions) {
+        acceptanceRate = +((all.count / all.submissions) * 100).toFixed(2);
+      }
+    }
+
+    // contributionPoints vs contributionPoint naming difference between mirrors
+    const contributionPoints = d.contributionPoints ?? d.contributionPoint;
+
+    // totalActiveDays / streak: derive from submissionCalendar when not provided directly
+    let totalActiveDays = d.totalActiveDays;
+    let streak = d.streak;
+    if ((totalActiveDays == null || streak == null) && d.submissionCalendar) {
+      const activeDays = Object.entries(d.submissionCalendar)
+        .filter(([, count]) => count > 0)
+        .map(([ts]) => Math.floor(Number(ts) / 86400)) // day index
+        .sort((a, b) => a - b);
+
+      if (totalActiveDays == null) totalActiveDays = activeDays.length;
+
+      if (streak == null) {
+        let best = 0, cur = 0, prev = null;
+        for (const day of activeDays) {
+          cur = prev !== null && day === prev + 1 ? cur + 1 : 1;
+          best = Math.max(best, cur);
+          prev = day;
+        }
+        streak = best;
+      }
+    }
+
+    return { ...d, acceptanceRate, contributionPoints, totalActiveDays, streak };
+  };
+
   /* Fetch LeetCode data with fallback endpoints */
   useEffect(() => {
     let mounted = true;
 
     const endpoints = [
+      // Active, community-maintained mirrors of the same stats shape (verified working)
+      `https://leetcode-api-faisalshohag.vercel.app/${USERNAME}`,
+      `https://leetcode-stats.tashif.codes/${USERNAME}`,
+      // Legacy endpoints kept as last-resort fallback in case they ever come back online
       `https://leetcode-stats-api.herokuapp.com/${USERNAME}`,
       `https://leetcode-stats.vercel.app/${USERNAME}`,
     ];
@@ -59,7 +105,7 @@ export default function LeetCodeStats() {
           if (!mounted) return;
           // some APIs return { status: 'success' } while others return raw object
           if (d && (d.status === 'success' || d.totalSolved || d.submissionCalendar)) {
-            setData(d);
+            setData(normalize(d));
             break;
           }
         } catch (e) {
@@ -73,9 +119,20 @@ export default function LeetCodeStats() {
     return () => { mounted = false; };
   }, []);
 
-  /* Build submission calendar weeks from data */
+  /* Build submission calendar weeks from data.
+     LeetCode's submissionCalendar keys are unix timestamps at day granularity,
+     but matching them by exact timestamp arithmetic is fragile across timezones.
+     Instead, normalize both sides to a plain YYYY-MM-DD date string and look up by that. */
   const buildWeeks = (submissionCalendar) => {
     if (!submissionCalendar) return [];
+
+    // Map every calendar entry to its calendar-date string (UTC), summing if needed
+    const byDate = {};
+    Object.entries(submissionCalendar).forEach(([ts, count]) => {
+      const dateStr = new Date(Number(ts) * 1000).toISOString().slice(0, 10);
+      byDate[dateStr] = (byDate[dateStr] || 0) + count;
+    });
+
     const now   = new Date();
     const weeks = [];
 
@@ -83,11 +140,11 @@ export default function LeetCodeStats() {
       const week = [];
       for (let d = 6; d >= 0; d--) {
         const date = new Date(now);
+        date.setHours(0, 0, 0, 0);
         date.setDate(now.getDate() - w * 7 - d);
-        const ts    = Math.floor(date.getTime() / 1000);
-        // find closest timestamp in calendar
-        const count = submissionCalendar[ts] || submissionCalendar[ts - 86400] || 0;
-        week.push({ date: date.toISOString().slice(0, 10), count });
+        const dateStr = date.toISOString().slice(0, 10);
+        const count = byDate[dateStr] || 0;
+        week.push({ date: dateStr, count });
       }
       weeks.push(week);
     }
@@ -120,15 +177,9 @@ export default function LeetCodeStats() {
   const textPri    = isDark ? "#e6edf3" : "#0a0e27";
   const textSec    = isDark ? "#8b949e" : "#57606a";
 
-  /* Stat cards data */
-  const stats = data ? [
-    { label: "Problems Solved", value: data.totalSolved,      icon: "✅", color: "#3b82f6" },
-    { label: "Easy Solved",     value: data.easySolved,       icon: "🟢", color: "#22c55e" },
-    { label: "Medium Solved",   value: data.mediumSolved,     icon: "🟡", color: "#f59e0b" },
-    { label: "Hard Solved",     value: data.hardSolved,       icon: "🔴", color: "#ef4444" },
-    { label: "Acceptance Rate", value: `${data.acceptanceRate}%`, icon: "🎯", color: "#8b5cf6" },
-    { label: "Ranking",         value: `#${data.ranking?.toLocaleString()}`, icon: "🏅", color: "#f97316" },
-  ] : [];
+  // Streak milestone badges — mark achieved once the longest streak reaches the threshold
+  const streakMilestones = [50, 100];
+  const longestStreak = data?.streak || 0;
 
   // Image fallback providers for LeetCode card (rotate on error)
   const imageProviders = [
@@ -175,20 +226,32 @@ export default function LeetCodeStats() {
         </a>
       </div>
 
-      {/* ── Stats grid ── */}
+      {/* ── Streak milestone badges ── */}
       {!loading && data && (
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 mb-4">
-          {stats.map(({ label, value, icon, color }) => (
-            <motion.div
-              key={label}
-              whileHover={{ scale: 1.04 }}
-              className="rounded-xl px-3 py-2 border text-center"
-              style={{ backgroundColor: cardBg, borderColor: cardBorder }}
-            >
-              <p className="text-xs mb-0.5" style={{ color: textSec }}>{icon} {label}</p>
-              <p className="text-sm font-bold" style={{ color }}>{value}</p>
-            </motion.div>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {streakMilestones.map((milestone) => {
+            const achieved = longestStreak >= milestone;
+            return (
+              <motion.div
+                key={milestone}
+                whileHover={{ scale: 1.04 }}
+                className="flex items-center gap-2 rounded-full px-4 py-2 border"
+                style={{
+                  backgroundColor: achieved ? 'rgba(255,165,0,0.12)' : cardBg,
+                  borderColor: achieved ? '#ffa500' : cardBorder,
+                  opacity: achieved ? 1 : 0.55,
+                }}
+                title={achieved
+                  ? `Reached a ${milestone}-day streak`
+                  : `${milestone - longestStreak} more days to reach a ${milestone}-day streak`}
+              >
+                <span style={{ fontSize: '16px' }}>{achieved ? '🔥' : '🔒'}</span>
+                <span className="text-xs font-semibold" style={{ color: achieved ? '#ffa500' : textSec }}>
+                  {milestone}-Day Streak
+                </span>
+              </motion.div>
+            );
+          })}
         </div>
       )}
 
@@ -305,7 +368,7 @@ export default function LeetCodeStats() {
                             backgroundColor: getColor(day.count, isDark),
                             cursor:'crosshair',
                             outline: tooltip?.date === day.date
-                              ? `1.5px solid #ffa500` : 'none',
+                              ? `1.5px solid #39d353` : 'none',
                           }}
                           onMouseEnter={e => {
                             const rect = containerRef.current?.getBoundingClientRect();
