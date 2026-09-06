@@ -1,37 +1,101 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import { FaEnvelope, FaPhone, FaLinkedin, FaGithub } from "react-icons/fa";
+
+// Words/phrases that mark a message as trolling/spam rather than a genuine inquiry.
+// Add more over time as you see patterns — this is a first line of defense, not a perfect filter.
+const BLOCKED_TERMS = [
+  "bullshit", "idiot", "stupid", "loser", "scam",
+  "viagra", "crypto investment", "seo services", "backlink",
+  "casino", "forex", "click here", "make money fast",
+];
+
+const MIN_MESSAGE_LENGTH = 10;
+const MIN_TIME_ON_FORM_MS = 3000; // real people take at least a few seconds to type
+const RATE_LIMIT_MS = 60000;      // one submission per minute per browser
 
 function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
-    message: ""
+    message: "",
+    company: "", // honeypot — real users never see or fill this field
   });
 
   const [status, setStatus] = useState("");
+  const [statusType, setStatusType] = useState(""); // "success" | "error"
+  const formLoadTime = useRef(Date.now());
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const looksLikeSpam = (data) => {
+    // 1. Honeypot — bots fill every field, real users never see this one
+    if (data.company.trim() !== "") return "honeypot";
+
+    // 2. Time trap — bots submit near-instantly
+    if (Date.now() - formLoadTime.current < MIN_TIME_ON_FORM_MS) return "too-fast";
+
+    // 3. Rate limit — block rapid repeat submissions from the same browser
+    const lastSubmit = Number(localStorage.getItem("lastContactSubmit") || 0);
+    if (Date.now() - lastSubmit < RATE_LIMIT_MS) return "rate-limited";
+
+    // 4. Minimum effort — block one-word / junk messages
+    if (data.message.trim().length < MIN_MESSAGE_LENGTH) return "too-short";
+
+    // 5. Keyword filter — block obvious trolling/spam content
+    const lowerMsg = (data.name + " " + data.message).toLowerCase();
+    if (BLOCKED_TERMS.some((term) => lowerMsg.includes(term))) return "blocked-terms";
+
+    // 6. Link-blast filter — genuine inquiries rarely contain multiple links
+    const linkCount = (data.message.match(/https?:\/\/|www\./gi) || []).length;
+    if (linkCount > 1) return "too-many-links";
+
+    return null;
+  };
+
   const sendEmail = (e) => {
     e.preventDefault();
+
+    const spamReason = looksLikeSpam(formData);
+    if (spamReason) {
+      // Bots get a fake "success" so they don't learn to route around the filter;
+      // real users get an honest, specific message so they can actually fix it.
+      if (spamReason === "honeypot" || spamReason === "too-fast") {
+        setStatusType("success");
+        setStatus("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "", company: "" });
+        return;
+      }
+      const messages = {
+        "rate-limited":   "You've already sent a message recently — please wait a minute before sending another.",
+        "too-short":      "Please write a bit more detail so I know what you're reaching out about.",
+        "blocked-terms":  "Please keep your message respectful and try again.",
+        "too-many-links": "Please remove extra links from your message and try again.",
+      };
+      setStatusType("error");
+      setStatus(messages[spamReason]);
+      return;
+    }
 
     emailjs
       .send(
         "service_77tpu5b",        // YOUR SERVICE ID
         "template_2vtfs46",       // YOUR TEMPLATE ID
-        formData,
+        { name: formData.name, email: formData.email, message: formData.message },
         "CTKtIbWNKL7aEJ02v"       // YOUR PUBLIC KEY
       )
       .then(
         () => {
+          localStorage.setItem("lastContactSubmit", String(Date.now()));
+          setStatusType("success");
           setStatus("Message sent successfully!");
-          setFormData({ name: "", email: "", message: "" });
+          setFormData({ name: "", email: "", message: "", company: "" });
         },
         () => {
+          setStatusType("error");
           setStatus("Failed to send message. Try again.");
         }
       );
@@ -121,6 +185,24 @@ function Contact() {
               onSubmit={sendEmail}
               className="bg-dark p-8 rounded-lg space-y-4"
             >
+              {/* Honeypot field — hidden from real users, bots fill it anyway */}
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                tabIndex="-1"
+                autoComplete="off"
+                aria-hidden="true"
+                style={{
+                  position: "absolute",
+                  left: "-9999px",
+                  width: "1px",
+                  height: "1px",
+                  opacity: 0,
+                }}
+              />
+
               <input
                 type="text"
                 name="name"
@@ -159,7 +241,7 @@ function Contact() {
               </button>
 
               {status && (
-                <p className="text-center text-green-400 mt-4 font-semibold">
+                <p className={`text-center mt-4 font-semibold ${statusType === "error" ? "text-red-400" : "text-green-400"}`}>
                   {status}
                 </p>
               )}
