@@ -22,10 +22,20 @@ function Navbar() {
     }
   }, [darkMode]);
 
-  /* ── Shrink navbar on scroll ── */
+  /* ── Shrink navbar on scroll (throttled to one update per animation frame) ── */
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    let ticking = false;
+
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        setScrolled(window.scrollY > 20);
+        ticking = false;
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
