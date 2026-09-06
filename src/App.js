@@ -11,6 +11,7 @@ import PageLoader      from './components/PageLoader';
 import CursorFollower  from './components/CursorFollower';
 import AskPrikshit     from './components/AskPrikshit';
 import LeetCodeStats   from './components/LeetCodeStats';
+import CopyProtection  from './components/CopyProtection';
 
 export default function App() {
   const [siteVisible, setSiteVisible] = useState(false);
@@ -21,6 +22,7 @@ export default function App() {
 
   return (
     <>
+      <CopyProtection />
       <CursorFollower />
       <PageLoader onComplete={handleLoaderDone} />
 
