@@ -27,7 +27,7 @@ export default function ResumeViewer({ open, onClose }) {
 
     const renderPdf = async () => {
       try {
-        const pdf = await pdfjsLib.getDocument(RESUME_PATH).promise;
+        const pdf = await pdfjsLib.getDocument({ url: RESUME_PATH }).promise;
         if (cancelled) return;
         setNumPages(pdf.numPages);
 
