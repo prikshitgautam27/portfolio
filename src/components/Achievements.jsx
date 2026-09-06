@@ -4,13 +4,13 @@ import { useRef, useState } from "react";
 /* ─── Data ─────────────────────────────────────────────────────────── */
 const LEETCODE_BADGES = [
   {
-    id: "lc50",
-    title: "50 Days Badge",
+    id: "lc100",
+    title: "100 Days Badge",
     subtitle: "LeetCode",
     icon: "🔥",
     color: "#ffa500",
     glow: "rgba(255,165,0,0.35)",
-    description: "Solved problems for 50 consecutive days",
+    description: "Solved problems for 100 consecutive days",
     year: "2025",
     verified: true,
   },
@@ -93,6 +93,17 @@ const ACHIEVEMENTS = [
     glow: "rgba(255,165,0,0.3)",
     tag: "DSA",
     year: "2025",
+  },
+  {
+    id: "dsa-500",
+    emoji: "🧠",
+    title: "Data Structures & Algorithms",
+    subtitle: "500+ problems · Cross-platform",
+    detail: "Solved 500+ DSA problems to optimize runtime complexity across competitive platforms like LeetCode, NeetCode and GeeksForGeeks.",
+    color: "#ffa500",
+    glow: "rgba(255,165,0,0.3)",
+    tag: "DSA",
+    year: "2026",
   },
   {
     id: "5g-research",

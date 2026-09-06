@@ -24,6 +24,7 @@ function getColor(count, isDark) {
 export default function LeetCodeStats() {
   const [data,    setData]    = useState(null);
   const [loading, setLoading] = useState(true);
+  const [cardError, setCardError] = useState(false);
   const [isDark,  setIsDark]  = useState(
     document.documentElement.classList.contains("dark")
   );
@@ -143,7 +144,7 @@ export default function LeetCodeStats() {
           className="text-xs hover:underline transition"
           style={{ color: '#ffa500' }}
         >
-          
+          View profile →
         </a>
       </div>
 
@@ -193,20 +194,35 @@ export default function LeetCodeStats() {
               ))}
             </div>
           ) : weeks.length === 0 ? (
-            /* Fallback: show placeholder if API fails */
+            /* Fallback: show a public LeetCode card image when API fails */
             <div className="text-center py-8">
-              <p className="text-sm mb-2" style={{ color: textSec }}>
-                Live data loads on deployment
+              <p className="text-sm mb-4" style={{ color: textSec }}>
+                Live data unavailable — showing profile card
               </p>
-              <a
-                href={`https://leetcode.com/u/${USERNAME}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm font-semibold"
-                style={{ color: '#ffa500' }}
-              >
-                
-              </a>
+              {!cardError ? (
+                <img
+                  src={`https://leetcard.jacobzhang.workers.dev/api?username=${USERNAME}`}
+                  alt={`LeetCode card for ${USERNAME}`}
+                  className="mx-auto"
+                  style={{ maxWidth: 420, width: '100%' }}
+                  onError={() => setCardError(true)}
+                />
+              ) : (
+                <div>
+                  <p className="text-sm mb-2" style={{ color: textSec }}>
+                    Could not load the card image. View your profile directly:
+                  </p>
+                  <a
+                    href={`https://leetcode.com/u/${USERNAME}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-semibold"
+                    style={{ color: '#ffa500' }}
+                  >
+                    https://leetcode.com/u/{USERNAME}
+                  </a>
+                </div>
+              )}
             </div>
           ) : (
             <div style={{ minWidth: `${LEFT + weeks.length * STEP}px`, position: 'relative' }}>
