@@ -24,8 +24,7 @@ function getColor(count, isDark) {
 export default function LeetCodeStats() {
   const [data,    setData]    = useState(null);
   const [loading, setLoading] = useState(true);
-  const [cardError, setCardError] = useState(false);
-  const [isDark,  setIsDark]  = useState(
+   const [isDark,  setIsDark]  = useState(
     document.documentElement.classList.contains("dark")
   );
   const [tooltip, setTooltip] = useState(null);
@@ -42,17 +41,36 @@ export default function LeetCodeStats() {
     return () => obs.disconnect();
   }, []);
 
-  /* Fetch LeetCode data */
+  /* Fetch LeetCode data with fallback endpoints */
   useEffect(() => {
-    fetch(`https://leetcode-stats-api.herokuapp.com/${USERNAME}`)
-      .then(r => r.json())
-      .then(d => {
-        if (d.status === "success") {
-          setData(d);
+    let mounted = true;
+
+    const endpoints = [
+      `https://leetcode-stats-api.herokuapp.com/${USERNAME}`,
+      `https://leetcode-stats.vercel.app/${USERNAME}`,
+    ];
+
+    (async () => {
+      for (const url of endpoints) {
+        try {
+          const res = await fetch(url);
+          if (!res.ok) continue;
+          const d = await res.json();
+          if (!mounted) return;
+          // some APIs return { status: 'success' } while others return raw object
+          if (d && (d.status === 'success' || d.totalSolved || d.submissionCalendar)) {
+            setData(d);
+            break;
+          }
+        } catch (e) {
+          // try next endpoint
+          continue;
         }
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
+      }
+      if (mounted) setLoading(false);
+    })();
+
+    return () => { mounted = false; };
   }, []);
 
   /* Build submission calendar weeks from data */
@@ -111,6 +129,15 @@ export default function LeetCodeStats() {
     { label: "Acceptance Rate", value: `${data.acceptanceRate}%`, icon: "🎯", color: "#8b5cf6" },
     { label: "Ranking",         value: `#${data.ranking?.toLocaleString()}`, icon: "🏅", color: "#f97316" },
   ] : [];
+
+  // Image fallback providers for LeetCode card (rotate on error)
+  const imageProviders = [
+    `https://leetcard.jacobzhang.workers.dev/api?username=${USERNAME}`,
+    `https://leetcard.now.sh/api?username=${USERNAME}`,
+    `https://leetcard-sand.vercel.app/api?username=${USERNAME}`,
+  ];
+  const [imgIndex, setImgIndex] = useState(0);
+  const [imgFailed, setImgFailed] = useState(false);
 
   return (
     <motion.div
@@ -194,19 +221,33 @@ export default function LeetCodeStats() {
               ))}
             </div>
           ) : weeks.length === 0 ? (
-            /* Fallback: show a public LeetCode card image when API fails */
+            // Fallback: show a public LeetCode card image when API fails
             <div className="text-center py-8">
               <p className="text-sm mb-4" style={{ color: textSec }}>
                 Live data unavailable — showing profile card
               </p>
-              {!cardError ? (
-                <img
-                  src={`https://leetcard.jacobzhang.workers.dev/api?username=${USERNAME}`}
-                  alt={`LeetCode card for ${USERNAME}`}
-                  className="mx-auto"
+              {!imgFailed ? (
+                <a
+                  href={`https://leetcode.com/u/${USERNAME}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block mx-auto"
                   style={{ maxWidth: 420, width: '100%' }}
-                  onError={() => setCardError(true)}
-                />
+                >
+                  <img
+                    src={imageProviders[imgIndex]}
+                    alt={`LeetCode card for ${USERNAME}`}
+                    className="mx-auto"
+                    style={{ maxWidth: 420, width: '100%' }}
+                    onError={() => {
+                      if (imgIndex + 1 < imageProviders.length) {
+                        setImgIndex(imgIndex + 1);
+                      } else {
+                        setImgFailed(true);
+                      }
+                    }}
+                  />
+                </a>
               ) : (
                 <div>
                   <p className="text-sm mb-2" style={{ color: textSec }}>
@@ -219,7 +260,7 @@ export default function LeetCodeStats() {
                     className="text-sm font-semibold"
                     style={{ color: '#ffa500' }}
                   >
-                    https://leetcode.com/u/{USERNAME}
+                    {`https://leetcode.com/u/${USERNAME}`}
                   </a>
                 </div>
               )}
